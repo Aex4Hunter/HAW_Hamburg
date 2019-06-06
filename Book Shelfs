@@ -1,0 +1,111 @@
+//this program shows how arrays works (including ArrayList (creating and add objects in it), toString overrided method; 
+// we create the book with name and list of authors, and a shelf
+//then we put the book on the shelf
+
+public class Person {
+	
+	private String personsName;
+	private String lastName;
+	
+  //getters and setters
+  
+	public String getPersonsName() {return personsName;}	
+	public void setPersonsName(String personsName) {this.personsName = personsName;}	
+	public String getLastName() {return lastName;}  
+	public void setLastName(String lastName) {this.lastName = lastName;}
+
+	@Override
+	public String toString() {return personsName + " " + lastName;}		
+}
+
+//class Book
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Book {	
+  
+  //creating an arrayList that holds the authors of the book
+	ArrayList<Person> authors = new ArrayList<Person>();
+	String bookTitle;
+	
+  //adding authors to our ArrayList created above
+	public void addAuthors(Person author) {authors.add(author);}	
+	
+	@Override
+	public String toString() {
+		return "Book authors: " + authors + " Book Title:  " + bookTitle;
+	}		
+}
+
+// class bookStack which is gonna hold books
+
+import java.util.ArrayList;
+
+public class BookStack {
+
+//creating ArrayList which represents a book shelf, so objects in it would be books itself
+	private ArrayList<Book> bookSt = new ArrayList<Book>();	
+
+// add book to the array (other words on the shelf)
+	public void pushBook(Book book) {bookSt.add(book);}
+
+	@Override
+	public String toString() {return "on the Book Stack: " + bookSt;}	
+}
+
+//executable class where we created all our objects and fill them with each other (like shelfs with the books or giving authors 
+//and names to the books)
+
+public class bookshelftest {
+
+	public static void main(String[] args) {
+		
+//		new person who is the author
+		Person Lev = new Person();
+		Lev.setPersonsName("Lev");
+		Lev.setLastName("Tolstoy");
+		
+		Person Sasha = new Person();
+		Sasha.setPersonsName("Alexander");
+		Sasha.setLastName("Pushkin");
+
+		//new shelf 
+		
+		BookStack stack_1 = new BookStack();
+		BookStack stack_2 = new BookStack();
+		
+		//new book
+		Book warAndPiec = new Book();
+		warAndPiec.bookTitle = "War and Piece";
+		warAndPiec.addAuthors(Lev);
+		warAndPiec.addAuthors(Sasha);
+		
+		Book dama = new Book();
+		dama.bookTitle = "Pikovaya Dama";
+		dama.addAuthors(Sasha);		
+			
+		//put new book on the shelf and print out the shelf 
+		stack_1.pushBook(warAndPiec);
+		stack_2.pushBook(dama);
+		System.out.println(stack_1 + " \n" + stack_2);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
