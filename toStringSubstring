@@ -1,0 +1,29 @@
+//this program reads the string from user and substract first and last word from it
+
+package lecture_4;
+
+import java.util.Scanner;
+
+import javax.xml.soap.Text;
+public class toStringSubstrings {
+	
+	public static void getPhraseBegining (String phrase) {		
+		String phrase2 = phrase.substring(0, phrase.indexOf(" "));
+		System.out.println("Beginning: " + phrase2);		
+	}
+	
+	public static void getPhraseEnd (String phrase) {		
+		String phrase2 = phrase.substring(phrase.lastIndexOf(" ")+1, phrase.length());
+		System.out.println("Ending: " + phrase2);
+	}
+		
+	public static void main(String args[]) {
+
+		System.out.println("Enter the sentence: ");
+		Scanner sentUser = new Scanner(System.in);
+		String original = sentUser.nextLine();
+		getPhraseBegining(original);
+		getPhraseEnd(original);		
+	}
+
+}
