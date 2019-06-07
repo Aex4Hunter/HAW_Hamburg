@@ -1,0 +1,33 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
+public class sortingAttayList {
+	
+	public static void main(String[] args) {
+
+		ArrayList <Integer> newList = new ArrayList<Integer>();
+		newList.add(3);
+		newList.add(8);
+		newList.add(0);
+		newList.add(17);
+		newList.add(1);
+		newList.add(5);
+		
+		//sorting items
+		Collections.sort(newList);
+		
+		// : gives us the shortcut not to write for(int i; i<myarray.length; i++) regular loop
+		// which means "for(int val: myarray)// Each value of myarray ( Array) will be visited"
+			for (int counter:newList) {
+			System.out.println(counter);			
+		}
+		
+		//reverse counting of the items
+		Collections.reverse(newList);
+		
+		for (int counter: newList) {
+			System.out.println(counter);
+		}		
+	}
+}
