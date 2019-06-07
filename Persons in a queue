@@ -1,0 +1,81 @@
+public class Person {
+	
+	private String personsName;
+	private String lastName;
+	
+	public String getPersonsName() {
+		return personsName;
+	}
+	
+	public void setPersonsName(String personsName) {
+		this.personsName = personsName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@Override
+	public String toString() {
+		return personsName + " " + lastName;
+	}
+		
+}
+
+//class PersonsQueue
+
+import java.util.ArrayList;
+public class PersonQueue {
+
+	ArrayList <Person> queue = new ArrayList<Person>();
+	
+	//add person to the queue
+	public void enterQueue(Person person) {
+		queue.add(person);
+	}
+	
+	//person leaves the queue
+	public void leaveQueue(int index) {
+		if(queue.size() > 0) {
+			queue.remove(index);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "In this queue: " + queue;
+	}	
+}
+
+package lecture_3;
+
+
+//test executable class
+public class PersonDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Person Lena = new Person();
+		Person Anna = new Person();
+		
+		Lena.setPersonsName("Lena ");
+		Lena.setLastName("Barulina ");
+		
+		Anna.setPersonsName("Anna");
+		Anna.setLastName("Litneva");
+				
+//		System.out.println(Lena);
+//		System.out.println(Lena.getLastName());
+		
+		PersonQueue queue1 = new PersonQueue();
+		queue1.enterQueue(Lena);
+		queue1.enterQueue(Anna);
+		System.out.println("Joined the queue: " + queue1);
+		
+		queue1.leaveQueue(1);
+		System.out.println("Somebody left, now in the queue: " + queue1);
+	}
+}
