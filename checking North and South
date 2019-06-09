@@ -1,0 +1,12 @@
+//check for North and South
+	public boolean isNorthernHemisphere() {
+		if (this.latitude > 0) {
+			return true;
+		} else return false;
+	}
+	
+	public boolean isSouthernHemisphere() {
+		if(this.latitude < 0) {
+			return true;
+		} else return false;
+	}
