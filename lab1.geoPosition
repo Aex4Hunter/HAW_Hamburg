@@ -1,0 +1,121 @@
+// class GEOPOSITION
+package lab1.geoPosition;
+
+public class GeoPosition {
+	
+	private double latitude;
+	private double longtitude;
+	
+	//generate Constructor
+	public GeoPosition(double latitude, double longtitude) {
+		super();
+		this.latitude = latitude;
+		this.longtitude = longtitude;
+	}
+
+	//getters for private attributes
+	public double getLatitude()	{return latitude;}
+	public double getLongtitude() {return longtitude;}
+	
+	//check for North and South
+	public boolean isNorthernHemisphere() {
+		if (this.latitude > 0) {
+			return true;
+		} else return false;
+	}
+	
+	public boolean isSouthernHemisphere() {
+		if(this.latitude < 0) {
+			return true;
+		} else return false;
+	}
+	
+	//calculate distances in KM (second one is more precise )
+	//first
+	public static double localDistanceInKm(GeoPosition obj1 , GeoPosition obj2) {
+			double x, y, lat1 , lat2, long1, long2 , distance;
+			lat1 = obj1.latitude;
+			lat2 = obj2.latitude;
+			long1 = obj1.longtitude;
+			long2 = obj2.longtitude;
+			
+			y = 111.3 * Math.abs(lat1 - lat2);
+			x = 111.3 * (Math.cos(((lat1 + lat2) / 2)*180 / Math.PI)) * (Math.abs(long1 - long2));		
+			distance = Math.sqrt(x * x + y * y);				
+			return distance;
+		}
+	
+	//second
+	public static double distanceInKm(GeoPosition obj1 , GeoPosition obj2) {
+		double lat1 , lat2, long1, long2;
+		lat1 = obj1.latitude;
+		lat2 = obj2.latitude;
+		long1 = obj1.longtitude;
+		long2 = obj2.longtitude;
+		final double ER = 6378.388;		
+		return 6378.388 * (Math.acos((Math.sin(lat1) * Math.sin(lat2)) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long2 - long1)));
+
+		}
+	
+		//third method is the same as previous one only it's a class method
+		//in order to use it we need create object of this class first
+		
+	public double distanceInKm(GeoPosition obj) {
+		double lat1 , lat2, long1, long2;
+		lat1 = getLatitude();
+		lat2 = obj.latitude;
+		long1 = getLongtitude();
+		long2 = obj.longtitude;
+		final double ER = 6378.388;
+		return 6378.388 * (Math.acos((Math.sin(lat1) * Math.sin(lat2)) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long2 - long1)));
+	}
+
+	@Override
+	public String toString() {
+		String lat = String.format("%.1f" , latitude);
+		String longt = String.format("%.1f" , longtitude);				
+		return lat + "         " + longt;
+	}
+	
+}
+
+
+
+
+//class GeoApp
+
+
+package lab1.geoPosition;
+
+public class GeoApp {
+
+	public static void main(String[] args) {
+				
+		//create objects of GeoPosition
+		GeoPosition hawHamburg = new GeoPosition(53.557078 , 10.023109);
+		GeoPosition EiffelTower = new GeoPosition(48.858363, 2.294481);
+		GeoPosition PalmadeMallorca = new GeoPosition(39.562553, 2.661947);
+		GeoPosition LasVegas = new GeoPosition(36.156214 , -115.148736);
+		GeoPosition Copacabana = new GeoPosition(-22.971177, -43.182543);
+		GeoPosition WaikikiBeach = new GeoPosition(21.281004, -157.837456);
+		GeoPosition SurfersParadise = new GeoPosition(-28.002695, 153.431781);
+		
+		//Calculating accurate distance
+		double hawTohaw = hawHamburg.distanceInKm(hawHamburg);
+		double toEfTower = hawHamburg.distanceInKm(EiffelTower);
+		
+		//Calculate local distance
+		double hawTohawlocal = GeoPosition.localDistanceInKm(hawHamburg, hawHamburg);
+		double toEfTowerlocal = GeoPosition.localDistanceInKm(hawHamburg, EiffelTower);
+				
+		System.out.println("Location   |  Latitude  |  Longtitude   |  Distance in km (accurate)   |  Distance in km (local)");
+		System.out.println("HAW Hamburg   " + hawHamburg + "            " + hawTohaw + "                            " + hawTohawlocal);
+		System.out.println("Eiffel Tower  " + EiffelTower + "            " + toEfTower + "               " + toEfTowerlocal);
+
+		//HAW to Poles
+		double hawToNorthPole = hawHamburg.distanceInKm(new GeoPosition(90, 0));
+		double hawToSouthPole = hawHamburg.distanceInKm(new GeoPosition(-90, 0));
+		System.out.println("North Pole  " + new GeoPosition(90, 0) + "            " + hawToNorthPole);
+		System.out.println("South Pole  " + new GeoPosition(-90, 0) + "            " + hawToSouthPole);		
+	}
+}
