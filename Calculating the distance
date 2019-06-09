@@ -1,0 +1,41 @@
+//calculating the distance
+
+//calculate distances in KM (second one is more precise )
+	//first
+	public static double localDistanceInKm(GeoPosition obj1 , GeoPosition obj2) {
+			double x, y, lat1 , lat2, long1, long2 , distance;
+			lat1 = obj1.latitude;
+			lat2 = obj2.latitude;
+			long1 = obj1.longtitude;
+			long2 = obj2.longtitude;
+			
+			y = 111.3 * Math.abs(lat1 - lat2);
+			x = 111.3 * (Math.cos(((lat1 + lat2) / 2)*180 / Math.PI)) * (Math.abs(long1 - long2));		
+			distance = Math.sqrt(x * x + y * y);				
+			return distance;
+		}
+	
+	//second
+	public static double distanceInKm(GeoPosition obj1 , GeoPosition obj2) {
+		double lat1 , lat2, long1, long2;
+		lat1 = obj1.latitude;
+		lat2 = obj2.latitude;
+		long1 = obj1.longtitude;
+		long2 = obj2.longtitude;
+		final double ER = 6378.388;		
+		return 6378.388 * (Math.acos((Math.sin(lat1) * Math.sin(lat2)) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long2 - long1)));
+
+		}
+	
+		//third method is the same as previous one only it's a class method
+		//in order to use it we need create object of this class first
+		
+	public double distanceInKm(GeoPosition obj) {
+		double lat1 , lat2, long1, long2;
+		lat1 = getLatitude();
+		lat2 = obj.latitude;
+		long1 = getLongtitude();
+		long2 = obj.longtitude;
+		final double ER = 6378.388;
+		return 6378.388 * (Math.acos((Math.sin(lat1) * Math.sin(lat2)) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long2 - long1)));
+	}
