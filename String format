@@ -1,0 +1,6 @@
+	@Override
+	public String toString() {
+		String lat = String.format("%.1f" , latitude);
+		String longt = String.format("%.1f" , longtitude);				
+		return lat + "         " + longt;
+	}
