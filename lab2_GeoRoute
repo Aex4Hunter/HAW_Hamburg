@@ -1,0 +1,248 @@
+//in this lab we use:
+// ArrayList of type GeoPosition ArrayList <GeoPosition> wayPoints = new ArrayList<GeoPosition>();
+// add and remove elements from arraylist, get size, get element of concrete index
+//getDistance to calculate the distance of points from the arrayList
+//CompareTo, comperable interface(we dont create interface itself)
+//String format (possible in syso) String.format("%s (%.1f km)" , name , getDistance())
+//implement abstract method
+//printing arrayList as a sorted array (for loop)
+
+//CLASS GEOROUTE
+
+public class GeoRoute implements Distance, Comparable <GeoRoute> {
+	private String name;
+	private ArrayList <GeoPosition> wayPoints = new ArrayList<GeoPosition>();
+	
+	//constructors
+	public GeoRoute(String name, ArrayList<GeoPosition> wayPoints) {
+		super();
+		this.name = name;
+		this.wayPoints = wayPoints;
+	}
+
+	public GeoRoute(String name) {
+		super();
+		this.name = name;
+	}
+
+	//getters and setters
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	//add and remove methods
+	public void addWaypoint(GeoPosition waypoint) {
+		wayPoints.add(waypoint);
+	}
+	
+	public void removeWaypoint(int i) {
+		if (getNumberWaypoints() > 0) {
+			wayPoints.remove(i);
+		}
+	}
+	
+	//returns the number of waypoints in the arrayList
+	public int getNumberWaypoints() {
+		return wayPoints.size();
+	}
+	
+	//check this method
+	public GeoPosition getWaypoint(int i) {
+		return wayPoints.get(i);
+	}
+	
+	//important method! remember, publish separately
+	public GeoPosition[] getWaypoints() {
+		 return wayPoints.toArray(new GeoPosition[wayPoints.size()]);
+	}
+
+	//important method! remember, publish separately
+	@Override
+	public double getDistance() {
+		double sum = 0;
+		for(int i = 0; i < wayPoints.size() - 1; i++) {
+			sum+= GeoPosition.distanceInKm(getWaypoint(i), getWaypoint(i + 1));
+		}		
+		return sum;
+	}
+
+	//compare objects of the same type. DON"T CREATE interface Comparable
+	@Override
+	public int compareTo(GeoRoute other) {
+		if(getDistance() < other.getDistance()) {
+			return -1;
+		} else if (getDistance() > other.getDistance()) {
+			return 1;
+		} else return 0;
+	}
+
+	//How to format the string! 
+	@Override
+	public String toString() {
+		return String.format("%s (%.1f km)" , name , getDistance());
+	}	
+}
+
+
+
+
+//Interface Distance 
+package lab2.geoPosition;
+public interface Distance {
+	public abstract double getDistance();
+}
+
+
+
+
+//Class geoTrack
+package lab2.geoPosition;
+import java.util.ArrayList;
+import lab1.geoPosition.GeoPosition;
+
+public class GeoTrack extends GeoRoute {
+	private String date;
+
+	//constructor
+	public GeoTrack(String name, String date) {
+		super(name);
+		this.date = date;
+	}
+
+	//getter and setter
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}	
+}
+
+
+
+
+
+//Given class RouteData
+//methods to create routes
+//,=method to create flights
+package lab2.geoPosition;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import lab1.geoPosition.GeoPosition;
+
+public class RouteData {
+	public static GeoRoute createAlsterRoute1() {
+		GeoRoute route = new GeoRoute("Binnenalster");
+
+		route.addWaypoint(new GeoPosition(53.556350, 10.021552));	// HAW
+		route.addWaypoint(new GeoPosition(53.561181, 10.013452));	// Alster (LohmьhlenstraЯe)
+		route.addWaypoint(new GeoPosition(53.557744, 10.004890));	// Alstertwiete
+		route.addWaypoint(new GeoPosition(53.559162, 9.995711));	// Kennedybrьcke
+		route.addWaypoint(new GeoPosition(53.554451, 9.990964));	// Jungfernstieg
+		route.addWaypoint(new GeoPosition(53.552061, 9.994515));	// Ballindamm
+		route.addWaypoint(new GeoPosition(53.557744, 10.004890));	// Alstertwiete
+		route.addWaypoint(new GeoPosition(53.561154, 10.013484));	// Alster (LohmьhlenstraЯe)
+		route.addWaypoint(new GeoPosition(53.556356, 10.021508));	// HAW
+		return route;
+	}
+
+	public static GeoRoute createAlsterRoute2() {
+		GeoRoute route = new GeoRoute("AuЯenalster");
+
+		route.addWaypoint(new GeoPosition(53.556254, 10.021650));	// HAW
+		route.addWaypoint(new GeoPosition(53.561192, 10.013245));	// Alster (LohmьhlenstraЯe)
+		route.addWaypoint(new GeoPosition(53.564232, 10.016791));	// Schwanenwik
+		route.addWaypoint(new GeoPosition(53.579689, 10.008131));	// GellertstraЯe
+		route.addWaypoint(new GeoPosition(53.579299, 9.998435));	// Eichenpark
+		route.addWaypoint(new GeoPosition(53.567317, 10.001325));	// Alsterufer
+		route.addWaypoint(new GeoPosition(53.558917, 9.995749));	// Kennedybrьcke
+		route.addWaypoint(new GeoPosition(53.557652, 10.005126));	// Alstertwiete
+		route.addWaypoint(new GeoPosition(53.561183, 10.013398));	// Alster (LohmьhlenstraЯe)
+		route.addWaypoint(new GeoPosition(53.556464, 10.021379));	// HAW		
+		return route;
+	}
+	
+	//Custom route around the park
+	public static GeoRoute createAlsterRoute3() {
+		GeoRoute route = new GeoRoute("Stadtpark");
+		
+		route.addWaypoint(new GeoPosition(53.559948, 9.982290));
+		route.addWaypoint(new GeoPosition(53.560471, 9.984543));
+		route.addWaypoint(new GeoPosition(53.560885, 9.985262));
+		route.addWaypoint(new GeoPosition(53.561765, 9.984007));
+		route.addWaypoint(new GeoPosition(53.561905, 9.981679));
+		route.addWaypoint(new GeoPosition(53.560860, 9.980627));
+		route.addWaypoint(new GeoPosition(53.560057, 9.982236));
+		return route;
+	}
+		
+	public static ArrayList<GeoRoute> createFlightRoutes() {
+		GeoPosition hamburg = new GeoPosition(53.633060, 9.993501);		// Hamburg
+		
+		GeoRoute billund = new GeoRoute("Kiel -> Billund");
+		billund.addWaypoint(hamburg);
+		billund.addWaypoint(new GeoPosition(54.379486, 10.144082));		// Kiel
+		billund.addWaypoint(new GeoPosition(55.740806, 9.152466));		// Billund
+
+		GeoRoute london = new GeoRoute("London");
+		london.addWaypoint(hamburg);
+		london.addWaypoint(new GeoPosition(51.470754, -0.457657));		// London
+		
+		GeoRoute lyon = new GeoRoute("Amsterdam -> Lyon");
+		lyon.addWaypoint(hamburg);
+		lyon.addWaypoint(new GeoPosition(52.310480, 4.767684));			// Amsterdam
+		lyon.addWaypoint(new GeoPosition(45.720407, 5.081052));			// Lyon
+		
+		GeoRoute rom = new GeoRoute("Mьnchen -> Rom");
+		rom.addWaypoint(hamburg);
+		rom.addWaypoint(new GeoPosition(48.353634, 11.774738));			// Mьnchen
+		rom.addWaypoint(new GeoPosition(41.799804, 12.245763));			// Rom
+		
+		GeoRoute saltLake = new GeoRoute("Salt Lake City");
+		saltLake.addWaypoint(hamburg);
+		saltLake.addWaypoint(new GeoPosition(40.786723, -111.982586));	// Salt Lake City
+		
+		return new ArrayList<GeoRoute>(Arrays.asList(lyon, saltLake, rom, billund, london));		
+	}
+}
+
+
+
+
+
+// main class GeoApp
+
+package lab2.geoPosition;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class GeoApp {
+	public static void main(String[] args) {
+		GeoRoute binnenalster = RouteData.createAlsterRoute1();
+		GeoRoute auЯenalster = RouteData.createAlsterRoute2();
+		GeoRoute stadtpark = RouteData.createAlsterRoute3();
+		
+		//format manually 
+		System.out.println(String.format("%s (%.2f km)", binnenalster.getName(), binnenalster.getDistance()));
+		System.out.println(String.format("%s (%.2f km)", auЯenalster.getName(), auЯenalster.getDistance()));
+		
+		//format using toString
+		System.out.println(auЯenalster.toString());
+		System.out.println(stadtpark.toString());		
+		
+		//flight routes
+		ArrayList<GeoRoute> flight = RouteData.createFlightRoutes();
+		Collections.sort(flight);
+		
+		for(int i = 0; i < flight.size(); i++) {
+			System.out.println(flight.get(i));
+		}				
+	}
+}
